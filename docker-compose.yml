@@ -1,0 +1,9 @@
+version: '3'
+services:
+  ssh_honeypot:
+    build: ./services/cowrie
+    ports:
+      - "2222:2222"  # Map Cowrie's SSH port to the host
+    volumes:
+      - ./services/cowrie/config.cfg:/opt/cowrie/etc/cowrie.cfg
+      - ./services/cowrie/logs:/opt/cowrie/log  # Store logs on the host machine

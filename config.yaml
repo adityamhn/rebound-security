@@ -1,0 +1,15 @@
+services:
+  ssh_honeypot:
+    enabled: true
+    port: 2222
+    log_path: ./logs/ssh.log
+
+  http_honeypot:
+    enabled: true
+    port: 8080
+    log_path: ./logs/http.log
+
+  telnet_honeypot:
+    enabled: false  # Set to false to disable
+    port: 2223
+    log_path: ./logs/telnet.log
