@@ -24,8 +24,9 @@ RUN chown -R cowrie_user:cowrie_user /opt/cowrie
 # Switch to non-root user
 USER cowrie_user
 
-# Install Cowrie Python dependencies
+# Install Cowrie Python dependencies and Twisted
 RUN pip install -r requirements.txt
+RUN pip install twisted
 
 # Expose SSH port
 EXPOSE 2222
