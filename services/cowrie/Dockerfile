@@ -14,8 +14,15 @@ RUN apt-get update && \
 # Clone the Cowrie repository
 RUN git clone https://github.com/cowrie/cowrie.git /opt/cowrie
 
-# Set working directory
+# Create a non-root user
+RUN useradd -ms /bin/bash cowrie_user
+
+# Set working directory and give permissions to the non-root user
 WORKDIR /opt/cowrie
+RUN chown -R cowrie_user:cowrie_user /opt/cowrie
+
+# Switch to non-root user
+USER cowrie_user
 
 # Install Cowrie Python dependencies
 RUN pip install -r requirements.txt
