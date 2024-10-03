@@ -26,7 +26,7 @@ USER cowrie_user
 
 # Install Cowrie Python dependencies and Twisted for twistd
 RUN pip install -r requirements.txt
-RUN pip install twisted
+RUN pip install Twisted
 
 # Check if twistd is installed and available in PATH
 RUN twistd --version || echo "Twisted not installed correctly"
