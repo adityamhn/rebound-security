@@ -1,7 +1,7 @@
 version: '3'
 services:
   ssh_honeypot:
-    build: ./services/cowrie
+    image: cowrie/cowrie:latest
     ports:
       - "2222:2222"  # Map Cowrie's SSH port to the host
     volumes:
