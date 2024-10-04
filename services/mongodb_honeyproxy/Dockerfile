@@ -1,8 +1,8 @@
 # Dockerfile for MongoDB-HoneyProxy
 FROM node:14
 
-# Install MongoDB client
-RUN apt-get update && apt-get install -y mongodb
+# # Install MongoDB client
+# RUN apt-get update && apt-get install -y mongodb
 
 # Set the working directory inside the container
 WORKDIR /app
