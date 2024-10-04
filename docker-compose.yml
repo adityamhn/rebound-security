@@ -8,11 +8,11 @@ services:
       - ./services/cowrie/config.cfg:/opt/cowrie/etc/cowrie.cfg
       - ./services/cowrie/logs:/opt/cowrie/log  # Store logs on the host machine
 
-  mongodb_honeyproxy:
-    build: ./services/mongodb_honeyproxy  # Path to the directory where the Dockerfile for MongoDB-HoneyProxy is located
-    ports:
-      - "27017:27017"  # Expose MongoDB proxy port
-    volumes:
-      - ./mongodb_honeyproxy/data:/data/db  # Persist MongoDB data
-    depends_on:
-      - ssh_honeypot  # Ensure SSH honeypot starts before MongoDB-HoneyProxy
+  # mongodb_honeyproxy:
+  #   build: ./services/mongodb_honeyproxy  # Path to the directory where the Dockerfile for MongoDB-HoneyProxy is located
+  #   ports:
+  #     - "27017:27017"  # Expose MongoDB proxy port
+  #   volumes:
+  #     - ./mongodb_honeyproxy/data:/data/db  # Persist MongoDB data
+  #   depends_on:
+  #     - ssh_honeypot  # Ensure SSH honeypot starts before MongoDB-HoneyProxy
