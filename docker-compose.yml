@@ -9,7 +9,7 @@ services:
       - ./services/cowrie/logs:/opt/cowrie/log  # Store logs on the host machine
 
   mongodb_honeyproxy:
-    build: ./mongodb_honeyproxy  # Path to the directory where the Dockerfile for MongoDB-HoneyProxy is located
+    build: ./services/mongodb_honeyproxy  # Path to the directory where the Dockerfile for MongoDB-HoneyProxy is located
     ports:
       - "27017:27017"  # Expose MongoDB proxy port
     volumes:
