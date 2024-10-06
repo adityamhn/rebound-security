@@ -1,0 +1,6 @@
+- pages/
+  - login.js
+  - register.js
+  - index.js
+- components/
+  - AuthForm.js
