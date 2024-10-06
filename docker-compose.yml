@@ -8,6 +8,29 @@ services:
       - ./services/cowrie/config.cfg:/opt/cowrie/etc/cowrie.cfg
       - ./services/cowrie/logs:/opt/cowrie/log  # Store logs on the host machine
 
+  mariadb:
+    image: mariadb:11
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./attacklogdata:/var/lib/mysql
+      - ./initdb.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./services/cowrie/cowrie-sql:/cowrie-sql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 1m
+      interval: 1m
+      timeout: 5s
+      retries: 3
+
   # mongodb_honeyproxy:
   #   build: ./services/mongodb_honeyproxy  # Path to the directory where the Dockerfile for MongoDB-HoneyProxy is located
   #   ports:
