@@ -1,13 +1,5 @@
 version: '3'
 services:
-  ssh_honeypot:
-    image: cowrie/cowrie:latest
-    ports:
-      - "2222:2222"  # Map Cowrie's SSH port to the host
-    volumes:
-      - ./services/cowrie/config.cfg:/opt/cowrie/etc/cowrie.cfg
-      - ./services/cowrie/logs:/opt/cowrie/log  # Store logs on the host machine
-
   mariadb:
     image: mariadb:11
     restart: on-failure
@@ -30,7 +22,16 @@ services:
       interval: 1m
       timeout: 5s
       retries: 3
-
+    
+  ssh_honeypot:
+    image: cowrie/cowrie:latest
+    restart: always
+    ports:
+      - "2222:2222"  # Map Cowrie's SSH port to the host
+    volumes:
+      - ./services/cowrie/cowrie.cfg:/cowrie/cowrie-git/etc/cowrie.cfg 
+      - ./services/cowrie/logs:/opt/cowrie/log  # Store logs on the host machine
+      - ./services/cowrie/mysql.py:/cowrie/cowrie-git/src/cowrie/output/mysql.py
   # mongodb_honeyproxy:
   #   build: ./services/mongodb_honeyproxy  # Path to the directory where the Dockerfile for MongoDB-HoneyProxy is located
   #   ports:

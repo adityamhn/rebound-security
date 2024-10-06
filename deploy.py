@@ -1,6 +1,7 @@
 import subprocess
 
 def deploy_honeypot():
+    subprocess.run(['sudo', 'rm', '-rf', './attacklogdata'])
     print("Deploying SSH Honeypot using Docker Compose...")
     subprocess.run(["docker", "compose", "up", "--build", "-d"])
 
