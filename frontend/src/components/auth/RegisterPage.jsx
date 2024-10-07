@@ -16,7 +16,7 @@ const RegisterPage = () => {
     const userRegisterMutation = useMutation(userSignup, {
         onSuccess: (data) => {
             messageApi.success("Register successful!");
-            router.push(`/login`)
+            router.push(`/auth`)
         },
         onError: (error) => {
             messageApi.error(error?.response?.data?.message || "Something went wrong")
@@ -26,7 +26,8 @@ const RegisterPage = () => {
     const handleRegister = async (values) => {
         await userRegisterMutation.mutateAsync({
             username: values.username,
-            password: values.password
+            password: values.password,
+            email: values.email
         })
     }
 
@@ -52,6 +53,22 @@ const RegisterPage = () => {
                         }
                     >
                         <Input className={formStyles.formInput} placeholder='Enter your username' />
+                    </Form.Item>
+                    <Form.Item
+                        label="Email"
+                        name="email"
+
+                        className={`${formStyles.formItem}`}
+                        rules={
+                            [
+                                {
+                                    required: true,
+                                    message: 'Please input your email!'
+                                },
+                            ]
+                        }
+                    >
+                        <Input className={formStyles.formInput} placeholder='Enter your email' />
                     </Form.Item>
                     <Form.Item
                         name="password"

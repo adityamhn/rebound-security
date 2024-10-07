@@ -57,16 +57,16 @@ async def signup():
     data = await request.get_json()
     username = data.get("username")
     password = data.get("password")
+    email = data.get("email")  # Capture email from the request
 
-    if not username or not password:
-        return jsonify({"message": "Username and password required"}), 400
+    if not username or not password or not email:
+        return jsonify({"message": "Username, password, and email required"}), 400
 
     if await user_service.check_user_exists(username):
         return jsonify({"message": "User already exists"}), 400
 
-    await user_service.create_user(username, password)
-    return jsonify({"message": f"User {username} registered successfully!"}), 201
-
+    await user_service.create_user(username, password, email)  # Pass email to create_user
+    return jsonify({"message": f"User {username} registered successfully!"}), 200
 
 @api.route("/auth/login", methods=["POST"])
 async def login():

@@ -20,7 +20,7 @@ export const userLogin = async ({ username, password }) => {
 };
 
 
-export const userSignup = async ({ username, password }) => {
-  const response = await apiClient.post("/auth/signup", { username, password });
+export const userSignup = async ({ username, password, email }) => {
+  const response = await apiClient.post("/auth/signup", { username, password, email });
   return response.data;
 };

@@ -6,10 +6,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", "supersecretdevelopmentkey")
 # Load the default database configuration
 db_config = {
     "user": "root",
-    "password": "Vaibhavv17",
-    "host": "localhost",
-    "db": "rebound",
-    "port": 3307,
+    "password": "password",
+    "host": "143.244.143.214",
+    "db": "auth_db",
+    "port": 3306,
 }
 
 class Database:
@@ -39,4 +39,3 @@ class Database:
             self.connection = None
 
 # Instantiate the Database class without a config parameter (it will use default db_config)
-db_service = Database()
