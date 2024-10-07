@@ -1,42 +1,125 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "@/styles/color-themes";
+@import "@/styles/variables";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+body,
+html {
+  scroll-behavior: smooth;
 
-html,
-body {
-  max-width: 100vw;
   overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
   padding: 0;
   margin: 0;
-}
+  background: var(--bg);
+  color: var(--text);
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+  * {
+    font-family: "tthoves", "Inter", sans-serif;
   }
+}
+
+.ant-modal-root {
+  .ant-modal-mask {
+    z-index: 1100;
+    background-color: rgba(#000, 0.75);
+  }
+
+  .ant-modal-wrap {
+    z-index: 1101;
+  }
+}
+
+.ant-select-dropdown {
+  z-index: 1200;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card-bg);
+
+
+  .ant-select-item  {
+    color: var(--text);
+    border-radius: 0;
+
+    &:first-child {
+      border-radius: 4px 4px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 4px 4px;
+    }
+  }
+
+  .ant-select-item-empty {
+    padding:1rem;
+
+    .ant-empty  {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      
+      .ant-empty-description {
+        color: var(--text-500);
+
+      }
+    }
+  }
+
+  .ant-select-item-option {
+    padding: 0.8rem 1rem;
+
+  } 
+
+  .ant-select-item-option-active {
+    background: var(--active-bg) !important;
+
+  } 
+
+  .ant-select-item-option-selected {
+    background: var(--active-bg) !important;
+    color: var(--text) !important;
+
+  } 
+
+
+  .ant-select-tree {
+    background: none;
+
+    .ant-select-tree-treenode  {
+      color: var(--text);
+      border-radius: 0;
+      padding: 0.5rem 1rem;
+
+      &:hover {
+        background: var(--active-bg) !important;
+        color: var(--text) !important;
+      }
+  
+      &:first-child {
+        border-radius: 4px 4px 0 0;
+      }
+  
+      &:last-child {
+        border-radius: 0 0 4px 4px;
+      }
+
+      .ant-select-tree-checkbox {
+        .ant-select-tree-checkbox-inner {
+          border-color: var(--border);
+          background: var(--card-bg);
+
+      
+        }
+      }
+    }
+  }
+}
+
+.ant-message {
+  z-index: 10000;
+}
+
+
+.advance-search-highlight {
+  color: var(--primary)
 }

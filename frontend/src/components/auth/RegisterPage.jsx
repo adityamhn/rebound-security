@@ -11,7 +11,7 @@ import { userLogin } from '@/services/auth.service';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '@/store/user.slice';
 
-const LoginPage = () => {
+const RegisterPage = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const router = useRouter();
     const dispatch = useDispatch();
@@ -38,8 +38,8 @@ const LoginPage = () => {
         <>
             {contextHolder}
             <div className={styles.authFormContainer}>
-                <h1 className={styles.title}>Login</h1>
-                <p className={styles.description}>Enter your credentials</p>
+                <h1 className={styles.title}>Register</h1>
+                {/* <p className={styles.description}>Enter your credentials</p> */}
                 <Form className={`${formStyles.formContainer} ${styles.authForm}`} layout='vertical' onFinish={handleLogin}>
                     <Form.Item
                         label="Username"
@@ -77,10 +77,6 @@ const LoginPage = () => {
                         htmlType='submit'
                         loading={userLoginMutation.isLoading}
                     >Login</PrimaryButton>
-                    <PrimaryButton
-                        buttonType="text"
-                        className={styles.forgotPasswordBtn}
-                    >Forgot Password?</PrimaryButton>
                 </Form>
 
             </div>
@@ -89,4 +85,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+export default RegisterPage

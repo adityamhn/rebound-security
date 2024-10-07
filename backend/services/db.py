@@ -34,3 +34,5 @@ class Database:
         if self.connection and self.connection.open:
             self.connection.close()
             
+            
+db_service = Database()
