@@ -16,6 +16,7 @@ services:
       - ./attacklogdata:/var/lib/mysql
       - ./initdb.sql:/docker-entrypoint-initdb.d/init.sql
       - ./services/cowrie/cowrie-sql:/cowrie-sql
+      - ./backend:/backend
     # healthcheck:
     #   test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
     #   start_period: 1m
