@@ -1,1 +1,7 @@
 quart
+quart-jwt-extended
+quart-cors
+python-dotenv
+aiomysql
+asyncio
+dotenv
