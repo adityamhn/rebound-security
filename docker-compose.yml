@@ -16,12 +16,12 @@ services:
       - ./attacklogdata:/var/lib/mysql
       - ./initdb.sql:/docker-entrypoint-initdb.d/init.sql
       - ./services/cowrie/cowrie-sql:/cowrie-sql
-    healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      start_period: 1m
-      interval: 1m
-      timeout: 5s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+    #   start_period: 1m
+    #   interval: 1m
+    #   timeout: 5s
+    #   retries: 3
     
   ssh_honeypot:
     image: cowrie/cowrie:latest

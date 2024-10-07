@@ -7,28 +7,24 @@ import formStyles from "@/styles/components/Form.module.scss"
 import PrimaryButton from '@/components/common/PrimaryButton'
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
-import { userLogin } from '@/services/auth.service';
-import { useDispatch } from 'react-redux';
-import { loginUser } from '@/store/user.slice';
+import { userSignup } from '@/services/auth.service';
 
 const RegisterPage = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const router = useRouter();
-    const dispatch = useDispatch();
 
-    const userLoginMutation = useMutation(userLogin, {
+    const userRegisterMutation = useMutation(userSignup, {
         onSuccess: (data) => {
-            messageApi.success("Login successful!");
-            dispatch(loginUser(data.user))
-            router.push(`/dashboard`)
+            messageApi.success("Register successful!");
+            router.push(`/login`)
         },
         onError: (error) => {
             messageApi.error(error?.response?.data?.message || "Something went wrong")
         }
     })
 
-    const handleLogin = async (values) => {
-        await userLoginMutation.mutateAsync({
+    const handleRegister = async (values) => {
+        await userRegisterMutation.mutateAsync({
             username: values.username,
             password: values.password
         })
@@ -40,7 +36,7 @@ const RegisterPage = () => {
             <div className={styles.authFormContainer}>
                 <h1 className={styles.title}>Register</h1>
                 {/* <p className={styles.description}>Enter your credentials</p> */}
-                <Form className={`${formStyles.formContainer} ${styles.authForm}`} layout='vertical' onFinish={handleLogin}>
+                <Form className={`${formStyles.formContainer} ${styles.authForm}`} layout='vertical' onFinish={handleRegister}>
                     <Form.Item
                         label="Username"
                         name="username"
@@ -75,8 +71,8 @@ const RegisterPage = () => {
                     <PrimaryButton
                         className={formStyles.formButton}
                         htmlType='submit'
-                        loading={userLoginMutation.isLoading}
-                    >Login</PrimaryButton>
+                        loading={userRegisterMutation.isLoading}
+                    >Register</PrimaryButton>
                 </Form>
 
             </div>
