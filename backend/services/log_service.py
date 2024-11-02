@@ -1,14 +1,7 @@
-from services.db import db_service
+from services.db import Database
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-db_config = {
-    "user": "root",
-    "password": "password",
-    "host": "143.244.143.214",
-    "db": "cowrie",
-    "port": 3306,
-}
 
 
 class LogService:
@@ -18,9 +11,13 @@ class LogService:
     async def getauth(self):
         conn = await self.db.get_connection()
         async with conn.cursor() as cursor:
-            await cursor.execute("SELECT * FROM AUTH")
-            result = await cursor.fetchone()
-            return result is not None
-
-
-log_service = LogService(db=db_service)
+            await cursor.execute("SELECT * FROM auth")
+            result = await cursor.fetchall()  # Fetch all rows instead of just one
+            return result
+    
+    async def getactions(self):
+        conn = await self.db.get_connection()
+        async with conn.cursor() as cursor:
+            await cursor.execute("SELECT * FROM input")
+            result = await cursor.fetchall()  # Fetch all rows instead of just one
+            return result

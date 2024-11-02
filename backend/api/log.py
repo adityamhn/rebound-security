@@ -8,7 +8,8 @@ from quart_jwt_extended import (
     get_jwt_identity,
     unset_jwt_cookies,
 )
-from services.log_service import log_service
+from services.log_service import LogService
+from services.db import Database
 
 
 db_config = {
@@ -19,23 +20,31 @@ db_config = {
     "port": 3306,
 }
 
-
-@api.route("/log", methods=["POST"])
-async def signup():
+@api.route("/logs", methods=["GET"])
+async def getlogs():
     try:
-        data = await request.get_json()  # Use get_json() to parse JSON data
-        if not data:
-            return jsonify({"error": "No data provided"}), 400
-
+        db_service = Database(config=db_config)
+        log_service = LogService(db=db_service)
         connection = log_service
         auth_result = await connection.getauth()
+        input_result = await connection.getactions()
 
         if auth_result:
-            response = {"message": "Authorization successful"}
+            # Assuming the table 'auth' has columns 'id' and 'username', modify as per your schema
+            response = [
+                row for row in auth_result
+            ]
+            
+            actions_response = [
+                row for row in input_result
+            ]
+            
+            return jsonify({
+                "auth": response,
+                "input": actions_response
+                }), 200
         else:
-            response = {"message": "Authorization failed"}
-
-        return jsonify(response), 200
+            return jsonify({"message": "No records found"}), 404
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

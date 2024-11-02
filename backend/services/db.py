@@ -16,6 +16,8 @@ class Database:
     def __init__(self, config=None):
         self.connection = None
         self.db_config = self.db_config = {**db_config, **(config or {})}
+        
+        print(self.db_config)
         # If config is provided, override the default db_config
 
     async def connect(self):
