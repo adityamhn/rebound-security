@@ -1,5 +1,5 @@
 import aiomysql
-import aiosqlit
+import aiosqlite
 import os
 
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretdevelopmentkey")
