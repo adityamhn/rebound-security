@@ -1,1 +1,3 @@
 /mariadb_logs
+services/dionaea/data/
+services/dionaea/log/

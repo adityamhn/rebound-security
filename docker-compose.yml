@@ -17,27 +17,34 @@ services:
       - ./initdb.sql:/docker-entrypoint-initdb.d/init.sql
       - ./services/cowrie/cowrie-sql:/cowrie-sql
       - ./backend:/backend
-    # healthcheck:
-    #   test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-    #   start_period: 1m
-    #   interval: 1m
-    #   timeout: 5s
-    #   retries: 3
-    
+
   ssh_honeypot:
     image: cowrie/cowrie:latest
     restart: always
     ports:
-      - "2222:2222"  # Map Cowrie's SSH port to the host
+      - "2222:2222"
     volumes:
       - ./services/cowrie/cowrie.cfg:/cowrie/cowrie-git/etc/cowrie.cfg 
-      - ./services/cowrie/logs:/opt/cowrie/log  # Store logs on the host machine
+      - ./services/cowrie/logs:/opt/cowrie/log
       - ./services/cowrie/mysql.py:/cowrie/cowrie-git/src/cowrie/output/mysql.py
-  # mongodb_honeyproxy:
-  #   build: ./services/mongodb_honeyproxy  # Path to the directory where the Dockerfile for MongoDB-HoneyProxy is located
-  #   ports:
-  #     - "27017:27017"  # Expose MongoDB proxy port
-  #   volumes:
-  #     - ./mongodb_honeyproxy/data:/data/db  # Persist MongoDB data
-  #   depends_on:
-  #     - ssh_honeypot  # Ensure SSH honeypot starts before MongoDB-HoneyProxy
+
+  dionaea_honeypot:
+    image: dinotools/dionaea
+    restart: always
+    environment:
+      DIONAEA_FORCE_INIT: "1"  # Prevents overwriting directory on start
+    ports:
+      # - "21:21"
+      # - "42:42"
+      # - "69:69"
+      - "80:80"
+      # - "135:135"
+      - "443:443"
+      # - "445:445"
+      # - "1433:1433"
+      # - "3306:3306"
+      # - "5060:5060"
+      # - "5061:5061"
+    volumes:
+      - ./services/dionaea/log:/opt/dionaea/var/log/dionaea
+      - ./services/dionaea/data/dionaea.sqlite:/opt/dionaea/var/lib/dionaea/dionaea.sqlite
