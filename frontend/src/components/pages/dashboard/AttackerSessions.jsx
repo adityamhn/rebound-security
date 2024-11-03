@@ -27,14 +27,14 @@ import SessionsTable from '@/components/common/tables/SessionsTable'
 //   }
 // ]
 
-const totalHoneypots = 10
 
 const AttackerSessions = () => {
   const router = useRouter()
   const pathname = usePathname()
 
   const { data, isLoading } = useQuery("sessions", getAllSessions, {
-    refetchInterval: 2000
+    refetchInterval: 2000,
+ 
   })
 
   // Modals
@@ -73,7 +73,7 @@ const AttackerSessions = () => {
           </Col>
         </Row> */}
         <div className={styles.dashboardTableContainer}>
-          <SessionsTable sessions={data?.sessions} />
+          <SessionsTable sessions={data?.sessions} loading={!data && isLoading} />
         </div>
 
 

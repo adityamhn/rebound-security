@@ -3,8 +3,10 @@ import React from 'react'
 import styles from '@/styles/components/Table.module.scss'
 
 import moment from 'moment'
+import SessionModal from '../modals/SessionModal'
 
-const CredentialsTable = ({ credentials }) => {
+const CredentialsTable = ({ credentials,loading }) => {
+    const [selectedSession, setSelectedSession] = React.useState(null)
 
     const columns = [
         {
@@ -65,7 +67,20 @@ const CredentialsTable = ({ credentials }) => {
                 dataSource={credentials}
                 columns={columns}
                 pagination={false}
+                onRow={(record, rowIndex) => {
+                    return {
+                        onClick: event => {
+                            setSelectedSession(
+                                credentials.find(session => session.id === record.id)
+                            )
+                        }
+                    }
+                }}
+                loading={loading}
             />
+
+            <SessionModal visible={selectedSession} setVisible={setSelectedSession} title="Credential Details" />
+
         </div>
     )
 }

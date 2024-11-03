@@ -2,6 +2,7 @@ import aiomysql
 import aiosqlite
 import os
 
+
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretdevelopmentkey")
 
 # Load the default database configuration
@@ -45,4 +46,42 @@ class Database:
     async def close(self):
         if self.connection:
             await self.connection.ensure_closed()
+            self.connection = None
+
+
+
+
+class SQLiteDatabase:
+    def __init__(self, db_path="../dionaea.sqlite"):
+        """
+        Initializes the SQLite database connection with a specified database path.
+        
+        :param db_path: Relative or absolute path to the SQLite file. Default is '../../dionaea.sqlite'.
+        """
+        # Convert the provided db_path to an absolute path
+        self.db_path = os.path.abspath(db_path)
+        
+        print(self.db_path)
+        self.connection = None
+
+    async def connect(self):
+        """
+        Establish a connection to the SQLite database.
+        """
+        self.connection = await aiosqlite.connect(self.db_path)
+
+    async def get_connection(self):
+        """
+        Returns the current database connection, connecting if necessary.
+        """
+        if not self.connection:
+            await self.connect()
+        return self.connection
+
+    async def close(self):
+        """
+        Closes the database connection if it exists.
+        """
+        if self.connection:
+            await self.connection.close()
             self.connection = None

@@ -85,7 +85,7 @@ async def get_top_credentials():
         credentials = [(record["username"], record["password"]) for record in auth_result]
         
         credential_counts = Counter(credentials)
-        top_credentials = credential_counts.most_common(5)  # Top 5 credentials
+        top_credentials = credential_counts.most_common(6)  # Top 5 credentials
         
         final = []
         

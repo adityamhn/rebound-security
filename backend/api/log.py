@@ -8,7 +8,7 @@ from quart_jwt_extended import (
     get_jwt_identity,
     unset_jwt_cookies,
 )
-from services.log_service import LogService
+from services.log_service import LogService, SQLiteLogService
 from services.db import Database, db_config_cowrie
 
 db_config = db_config_cowrie
@@ -61,9 +61,18 @@ async def get_sessions():
         log_service = LogService(db=db_service)
         connection = log_service
         
-        auth_result = await connection.getsessions()
+        log_service_2 = SQLiteLogService()
 
+        
+        auth_result_1 = await connection.getsessions()
+        auth_result_2 = await log_service_2.getsessions()
+        
+        auth_result = auth_result_1 + auth_result_2
         if auth_result:
+            
+            auth_result = sorted(auth_result, key=lambda x: x["starttime"], reverse=True)
+            
+            
             return jsonify({
                 "sessions": auth_result,
                 }), 200

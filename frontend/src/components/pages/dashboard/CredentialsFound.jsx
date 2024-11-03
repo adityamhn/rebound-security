@@ -79,7 +79,7 @@ const CredentialsFound = () => {
           </Col> */}
         </Row>
         <div className={styles.dashboardTableContainer}>
-          <CredentialsTable credentials={data?.credentials} />
+          <CredentialsTable credentials={data?.credentials} loading={isLoading && !data} />
         </div>
 
 

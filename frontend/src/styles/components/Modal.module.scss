@@ -12,10 +12,35 @@
     .appModalWrapper {
         width: 100%;
 
+        .modalContent {
+            gap: 1rem;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 0;
+        }
+
+        .modalRow {
+            display: flex;
+            flex-direction:column;
+
+            .modalLabel {
+                font-size: nth($fontSize, 2);
+                color: var(--text-secondary);
+
+            }
+
+            .modalValue {
+                font-size: nth($fontSize, 3);
+                font-weight: 500;
+                max-width: 100%;
+
+            }
+        }
+
         .modalHeader {
             .heading {
                 font-size: nth($fontSize, 6);
-                font-weight: 600;
+                font-weight: 500;
             }
 
             .description {
@@ -179,7 +204,7 @@
             .heading {
                 font-size: nth($fontSize, 8);
                 text-align: center;
-                font-weight: 600;
+                font-weight: 500;
                 margin-bottom: 0.9rem;
             }
 

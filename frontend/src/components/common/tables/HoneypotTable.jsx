@@ -49,14 +49,15 @@ const HoneypotTable = ({ honeypotTableDropdownItems, honeypots, totalHoneypots }
 
     return (
         <div className={styles.resourceTableContainer}>
+               <Row align="middle" justify="space-between" className={styles.tableFooter}>
+                <div className={styles.itemsCount}><span>{totalHoneypots ?? 0}</span>Honeypots</div>
+            </Row>
             <Table
                 dataSource={honeypots}
                 columns={columns}
                 pagination={false}
             />
-            <Row align="middle" justify="space-between" className={styles.tableFooter}>
-                <div className={styles.itemsCount}><span>{totalHoneypots ?? 0}</span>Honeypots</div>
-            </Row>
+         
         </div>
     )
 }

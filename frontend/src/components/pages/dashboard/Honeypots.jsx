@@ -15,14 +15,14 @@ import SearchBar from '@/components/common/SearchBar'
 
 const honeypots = [
   {
-    name: "Honeypot 1",
+    name: "Rebound Honeypot",
     id: "1",
     description: "This is a honeypot",
     createdAt: "2024-10-10"
   }
 ]
 
-const totalHoneypots = 10
+const totalHoneypots = 1
 
 const Honeypots = () => {
   const router = useRouter()

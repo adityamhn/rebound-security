@@ -69,7 +69,7 @@ const KeyFingerprints = () => {
           </Col>
         </Row> */}
         <div className={styles.dashboardTableContainer}>
-          <FingerprintsTable sessions={data?.fingerprints} />
+          <FingerprintsTable sessions={data?.fingerprints} loading={isLoading && !data}/>
         </div>
 
 

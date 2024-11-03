@@ -1,6 +1,6 @@
-from services.db import Database
+from services.db import SQLiteDatabase
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import datetime
 
 # CREATE TABLE IF NOT EXISTS `sessions` (
 #   `id` char(32) NOT NULL,
@@ -107,6 +107,35 @@ class LogService:
                         "session": session,
                         "username": username,
                         "fingerprint": fingerprint,
+                    }
+                )
+                
+            return data
+
+class SQLiteLogService:
+    def __init__(self, db=None):
+        if db is None:
+            self.db = SQLiteDatabase()
+        else:
+            self.db = SQLiteDatabase(db)
+
+    async def getsessions(self):
+        conn = await self.db.get_connection()
+        async with conn.cursor() as cursor:
+            await cursor.execute("select * from connections order by connection_timestamp desc")
+            result = await cursor.fetchall()
+            data = []
+            for row in result:
+                connection, connection_type, connection_transport, connection_protocol, connection_timestamp, connection_root, connection_parent, local_host, local_port, remote_host, remote_hostname,  remote_port= row
+                data.append(
+                    {
+                        "id": "DIO" + str(connection),
+                        "starttime": datetime.datetime.fromtimestamp(connection_timestamp),
+                        "endtime": None,
+                        "sensor": 1,
+                        "ip": remote_host,
+                        "termsize": None,
+                        "client": connection_protocol,
                     }
                 )
                 

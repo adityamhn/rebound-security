@@ -3,8 +3,10 @@ import React from 'react'
 import styles from '@/styles/components/Table.module.scss'
 
 import moment from 'moment'
+import SessionModal from '../modals/SessionModal'
 
-const SessionsTable = ({ sessions }) => {
+const SessionsTable = ({ sessions, loading }) => {
+    const [selectedSession, setSelectedSession] = React.useState(null)
 
     const columns = [
         // {
@@ -33,7 +35,7 @@ const SessionsTable = ({ sessions }) => {
             // render: (text) => <span>{text ? <span style={{ color: "#5cb85c" }}>Success</span> : <span style={{ color: "#d9534f" }}>Failed</span>}</span>
         },
         {
-            title: 'SSH client version',
+            title: 'Client',
             dataIndex: 'client',
             key: 'client',
             // render: (text) => <div style={{
@@ -50,7 +52,7 @@ const SessionsTable = ({ sessions }) => {
             title: 'Start Time',
             dataIndex: 'starttime',
             key: 'starttime',
-            render: (text) => <span>{moment(text).format("lll")}</span>
+            render: (text,r) => <span>{r?.id.includes("DIO") ? moment.unix(text).format("lll") :moment(text).format("lll")}</span>
         },
         {
             title: 'End Time',
@@ -85,7 +87,19 @@ const SessionsTable = ({ sessions }) => {
                 dataSource={sessions}
                 columns={columns}
                 pagination={false}
+                loading={loading}
+                onRow={(record, rowIndex) => {
+                    return {
+                        onClick: event => {
+                            setSelectedSession(
+                                sessions.find(session => session.id === record.id)
+                            )
+                        }
+                    }
+                }}
             />
+
+            <SessionModal visible={selectedSession} setVisible={setSelectedSession} title="Attacker Session Details" />
         </div>
     )
 }

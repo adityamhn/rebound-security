@@ -1,9 +1,11 @@
 import { Row, Table } from 'antd'
 import React from 'react'
 import styles from '@/styles/components/Table.module.scss'
+import SessionModal from '../modals/SessionModal'
 
 
-const FingerprintsTable = ({ sessions }) => {
+const FingerprintsTable = ({ sessions, loading }) => {
+    const [selectedSession, setSelectedSession] = React.useState(null)
 
     const columns = [
         // {
@@ -72,7 +74,17 @@ const FingerprintsTable = ({ sessions }) => {
                 dataSource={sessions}
                 columns={columns}
                 pagination={false}
+                onRow={(record, rowIndex) => {
+                    return {
+                        onClick: event => {
+                            setSelectedSession(record )
+                        }
+                    }
+                }}
             />
+
+<SessionModal visible={selectedSession} setVisible={setSelectedSession} title="Key Fingerprint Details" />
+
         </div>
     )
 }

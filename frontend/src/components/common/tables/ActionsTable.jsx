@@ -3,8 +3,10 @@ import React from 'react'
 import styles from '@/styles/components/Table.module.scss'
 
 import moment from 'moment'
+import SessionModal from '../modals/SessionModal'
 
-const ActionsTable = ({ actions }) => {
+const ActionsTable = ({ actions, loading }) => {
+    const [selectedSession, setSelectedSession] = React.useState(null)
 
     const columns = [
         // {
@@ -69,7 +71,18 @@ const ActionsTable = ({ actions }) => {
                 dataSource={actions}
                 columns={columns}
                 pagination={false}
+                loading={loading}
+                onRow={(record, rowIndex) => {
+                    return {
+                        onClick: event => {
+                            setSelectedSession(record)
+                        }
+                    }
+                }}
             />
+
+<SessionModal visible={selectedSession} setVisible={setSelectedSession} title="Action Taken By Attacker" />
+
         </div>
     )
 }

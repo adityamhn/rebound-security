@@ -72,7 +72,7 @@ const AttackPatterns = () => {
           </Col>
         </Row> */}
         <div className={styles.dashboardTableContainer}>
-          <ActionsTable actions={data?.actions} />
+          <ActionsTable actions={data?.actions} loading={!data && isLoading} />
         </div>
 
 
