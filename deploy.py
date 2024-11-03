@@ -2,7 +2,7 @@ import subprocess
 
 def deploy_honeypot():
     # Remove old data
-    subprocess.run(['sudo', 'rm', '-rf', './attacklogdata'])
+    # subprocess.run(['sudo', 'rm', '-rf', './attacklogdata'])
     subprocess.run(['sudo', 'rm', '-rf', './services/dionaea/data/'])
     subprocess.run(['sudo', 'rm', '-rf', './services/dionaea/log'])
     
