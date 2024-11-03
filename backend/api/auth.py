@@ -1,4 +1,4 @@
-from quart import  request, jsonify
+from quart import request, jsonify
 import os
 from . import api
 from quart_jwt_extended import (
@@ -65,8 +65,11 @@ async def signup():
     if await user_service.check_user_exists(username):
         return jsonify({"message": "User already exists"}), 400
 
-    await user_service.create_user(username, password, email)  # Pass email to create_user
-    return jsonify({"message": f"User {username} registered successfully!"}), 200
+    await user_service.create_user(
+        username, password, email
+    )  # Pass email to create_user
+    return jsonify({"message": f"User registered successfully!"}), 200
+
 
 @api.route("/auth/login", methods=["POST"])
 async def login():
@@ -84,21 +87,41 @@ async def login():
     if not await user_service.verify_password(stored_password, password):
         return jsonify({"message": "Incorrect password"}), 401
 
+    user = await user_service.get_user_details(username)
+
     # Generate JWT token and set it in the response
     access_token = create_access_token(identity=username)
-    response = jsonify({"message": f"User {username} logged in successfully!"})
+    response = jsonify(
+        {
+            "message": f"User {username} logged in successfully!",
+            "user": user,
+        }
+    )
     set_access_cookies(response, access_token)
     return response, 200
+
 
 @api.route("/auth/status", methods=["GET"])
 @jwt_required
 async def status():
     try:
         current_user = get_jwt_identity()
+        user = await user_service.get_user_details(current_user)
+
         if not current_user:
             return jsonify({"message": "Unauthorized access", "success": False}), 401
-        return jsonify({"message": "User is logged in", "user": current_user}), 200
-    except Exception:
+        return (
+            jsonify(
+                {
+                    "message": "User is logged in",
+                    "user": user,
+                    "isLoggedin": True,
+                }
+            ),
+            200,
+        )
+    except Exception as e:
+        print("Exception", e)
         return jsonify({"message": "Unauthorized access", "success": False}), 401
 
 

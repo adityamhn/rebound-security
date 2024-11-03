@@ -20,31 +20,83 @@ db_config = {
     "port": 3306,
 }
 
-@api.route("/logs", methods=["GET"])
-async def getlogs():
+@api.route("/logs/credentials", methods=["GET"])
+async def get_credentials():
     try:
         db_service = Database(config=db_config)
         log_service = LogService(db=db_service)
         connection = log_service
+        
         auth_result = await connection.getauth()
-        input_result = await connection.getactions()
 
         if auth_result:
-            # Assuming the table 'auth' has columns 'id' and 'username', modify as per your schema
-            response = [
-                row for row in auth_result
-            ]
-            
-            actions_response = [
-                row for row in input_result
-            ]
-            
             return jsonify({
-                "auth": response,
-                "input": actions_response
+                "credentials": auth_result,
                 }), 200
         else:
             return jsonify({"message": "No records found"}), 404
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+    
+@api.route("/logs/commands", methods=["GET"])
+async def get_commands():
+    try:
+        db_service = Database(config=db_config)
+        log_service = LogService(db=db_service)
+        connection = log_service
+        
+        auth_result = await connection.getactions()
+
+        if auth_result:
+            return jsonify({
+                "actions": auth_result,
+                }), 200
+        else:
+            return jsonify({"message": "No records found"}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+    
+    
+@api.route("/logs/sessions", methods=["GET"])
+async def get_sessions():
+    try:
+        db_service = Database(config=db_config)
+        log_service = LogService(db=db_service)
+        connection = log_service
+        
+        auth_result = await connection.getsessions()
+
+        if auth_result:
+            return jsonify({
+                "sessions": auth_result,
+                }), 200
+        else:
+            return jsonify({"message": "No records found"}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    
+@api.route("/logs/fingerprints", methods=["GET"])
+async def get_fingerprints():
+    try:
+        db_service = Database(config=db_config)
+        log_service = LogService(db=db_service)
+        connection = log_service
+        
+        auth_result = await connection.getfingerprints()
+
+        if auth_result:
+            return jsonify({
+                "fingerprints": auth_result,
+                }), 200
+        else:
+            return jsonify({"message": "No records found"}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    

@@ -1,6 +1,15 @@
 @import "../_variables";
 
+.elipTableField {
+    max-width: 15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .resourceTableContainer {
+
+ 
     .actionsButtonContainer {
         width: 2.5rem;
         height: 1.5rem;
@@ -170,8 +179,10 @@
         width: fit-content;
     }
 
+  
+
     .tableFooter {
-        margin-top: 1rem;
+        margin-bottom: 1rem;
 
         .itemsCount {
             font-size: nth($fontSize, 2);

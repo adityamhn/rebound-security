@@ -7,37 +7,38 @@ import formStyles from "@/styles/components/Form.module.scss"
 import PrimaryButton from '@/components/common/PrimaryButton'
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
-import { userSignup } from '@/services/auth.service';
+import { userLogin } from '@/services/auth.service';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '@/store/user.slice';
 
-const RegisterPage = () => {
-    const [messageApi, contextHolder] = message.useMessage();
+const LoginPage = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
 
-    const userRegisterMutation = useMutation(userSignup, {
+    const userLoginMutation = useMutation(userLogin, {
         onSuccess: (data) => {
-            messageApi.success("Register successful!");
-            router.push(`/auth`)
+            message.success("Login successful!");
+            dispatch(loginUser(data.user))
+            router.push(`/dashboard`)
         },
         onError: (error) => {
-            messageApi.error(error?.response?.data?.message || "Something went wrong")
+            message.error(error?.response?.data?.message || "Something went wrong")
         }
     })
 
-    const handleRegister = async (values) => {
-        await userRegisterMutation.mutateAsync({
+    const handleLogin = async (values) => {
+        await userLoginMutation.mutateAsync({
             username: values.username,
-            password: values.password,
-            email: values.email
+            password: values.password
         })
     }
 
     return (
         <>
-            {contextHolder}
             <div className={styles.authFormContainer}>
-                <h1 className={styles.title}>Register</h1>
-                {/* <p className={styles.description}>Enter your credentials</p> */}
-                <Form className={`${formStyles.formContainer} ${styles.authForm}`} layout='vertical' onFinish={handleRegister}>
+                <h1 className={styles.title}>Secure Your Network</h1>
+                <p className={styles.description}>Log in to manage your honeypots</p>
+                <Form className={`${formStyles.formContainer} ${styles.authForm}`} layout='vertical' onFinish={handleLogin}>
                     <Form.Item
                         label="Username"
                         name="username"
@@ -53,22 +54,6 @@ const RegisterPage = () => {
                         }
                     >
                         <Input className={formStyles.formInput} placeholder='Enter your username' />
-                    </Form.Item>
-                    <Form.Item
-                        label="Email"
-                        name="email"
-
-                        className={`${formStyles.formItem}`}
-                        rules={
-                            [
-                                {
-                                    required: true,
-                                    message: 'Please input your email!'
-                                },
-                            ]
-                        }
-                    >
-                        <Input className={formStyles.formInput} placeholder='Enter your email' />
                     </Form.Item>
                     <Form.Item
                         name="password"
@@ -88,8 +73,15 @@ const RegisterPage = () => {
                     <PrimaryButton
                         className={formStyles.formButton}
                         htmlType='submit'
-                        loading={userRegisterMutation.isLoading}
-                    >Register</PrimaryButton>
+                        loading={userLoginMutation.isLoading}
+                    >Login</PrimaryButton>
+                    <PrimaryButton
+                        onClick={() => router.push('/auth/register')}
+                        buttonType="text"
+                        className={styles.forgotPasswordBtn}
+                    >
+                        New here? Register
+                    </PrimaryButton>
                 </Form>
 
             </div>
@@ -98,4 +90,4 @@ const RegisterPage = () => {
     )
 }
 
-export default RegisterPage
+export default LoginPage

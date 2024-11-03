@@ -5,9 +5,10 @@ import { Row } from "antd";
 const Home = () => {
   return (
     <div className={styles.homeContainer}>
-      <Row justify="end" className={styles.navbar}>
-        <a href="/auth">Get Started with Rebound Security</a>
-      </Row>
+      <div className={styles.homeContent}>
+        <h1 className={styles.title}>Stay One Step Ahead of Hackers</h1>
+        <a href="/auth">Login to Rebound</a>
+      </div>
     </div>
   );
 };

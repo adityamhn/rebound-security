@@ -1,4 +1,6 @@
 
+@import "../_variables";
+
 
 .homeContainer {
     padding: 1rem;
@@ -10,8 +12,21 @@
 
     .homeContent {
         display: flex;
+        flex-direction: column;
         justify-content:center;
         align-items: center;
+
+        .title {
+            font-size: nth($fontSize, 9);
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        a {
+            font-weight:500;
+            font-size: nth($fontSize, 4);
+
+        }
         
     }
 }

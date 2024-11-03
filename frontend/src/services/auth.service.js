@@ -5,7 +5,7 @@ export const checkUserLoginStatus = async ({ sid }) => {
     "/auth/status",
     sid && {
       headers: {
-        Cookie: `sid=${sid}`,
+        Cookie: `access_token_cookie=${sid}`,
       },
     }
   );
@@ -22,5 +22,10 @@ export const userLogin = async ({ username, password }) => {
 
 export const userSignup = async ({ username, password, email }) => {
   const response = await apiClient.post("/auth/signup", { username, password, email });
+  return response.data;
+};
+
+export const userLogout = async () => {
+  const response = await apiClient.post("/auth/logout");
   return response.data;
 };

@@ -5,9 +5,16 @@
 
     .dashboardHeader {
         .heading {
-            margin: 0;
+            margin-bottom: 1rem;
             font-weight: nth($fontSize, 7);
-            font-weight: 600;
+            font-weight: 500;
+        }
+
+        .description {
+            font-size: nth($fontSize, 3);
+            color: var(--text-hover);
+            font-weight: 400;
+
         }
     }
 

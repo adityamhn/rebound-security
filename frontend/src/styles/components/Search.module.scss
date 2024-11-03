@@ -1,12 +1,13 @@
 @import "../_variables";
 
 .darkBugBaseSearchbar {
-  background-color: transparent;
+  background-color: transparent !important;
   outline: none;
   border: 0.5px solid var(--input-border-secondary) !important;
   height: 2.5rem;
   border-radius: 4px;
   font-size: 0.9rem;
+
 
   :global {
     .ant-input-group {
@@ -34,7 +35,7 @@
 
     .ant-input {
       background-color: transparent !important;
-      color: var(--text-secondary);
+      color: var(--text-secondary) !important;
 
       &::placeholder {
         color: var(--placeholder);

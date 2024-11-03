@@ -12,7 +12,7 @@
     }
 
     .formItem {
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
 
         :global {
             .ant-form-item-label {
@@ -39,8 +39,8 @@
 
         .formInput {
             height: 3rem;
-            border: 1px solid var(--input-border-primary);
-            background: none;
+            border: 1px solid var(--input-border-secondary);
+            background: none !important;
             border-radius: 4px;
             color: var(--text);
 
@@ -50,6 +50,11 @@
 
             &:disabled {
                 color: var(--text-secondary);
+            }
+
+
+            &:active, &:focus {
+                border-color: var(--input-border-primary);
             }
         }
 
@@ -270,6 +275,6 @@
     }
 
     .formButton {
-        margin-top: 1.8rem;
+        margin-top: 1rem;
     }
 }

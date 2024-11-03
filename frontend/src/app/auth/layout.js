@@ -9,16 +9,14 @@ import { checkUserLoginStatus } from "@/services/auth.service";
 
 const AuthLayout = async ({ children }) => {
   const cookieStore = cookies();
-  const sid = cookieStore.get("sid");
+  const sid = cookieStore.get("access_token_cookie");
   const { data, error } = await useServerSide(() =>
     checkUserLoginStatus({ sid: sid?.value })
   );
 
   if (data?.isLoggedIn) {
-      return <Redirect to="/dashboard" />;
+      return <Redirect to="/dashboard" updateUser user={data.user} />;
   }
-
-
 
   return (
     <div className={styles.authContainer}>

@@ -1,5 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from services.db import Database
+
+
 class UserService:
     def __init__(self):
         self.db = Database()
@@ -7,7 +9,9 @@ class UserService:
     async def check_user_exists(self, username):
         conn = await self.db.get_connection()
         async with conn.cursor() as cursor:
-            await cursor.execute("SELECT username FROM users WHERE username=%s", (username,))
+            await cursor.execute(
+                "SELECT username FROM users WHERE username=%s", (username,)
+            )
             result = await cursor.fetchone()
             return result is not None
 
@@ -21,16 +25,30 @@ class UserService:
             )
             await conn.commit()
 
-
     async def get_user_password(self, username):
         conn = await self.db.get_connection()
         async with conn.cursor() as cursor:
-            await cursor.execute("SELECT password FROM users WHERE username=%s", (username,))
+            await cursor.execute(
+                "SELECT password FROM users WHERE username=%s", (username,)
+            )
             result = await cursor.fetchone()
             return result[0] if result else None
 
     async def verify_password(self, stored_password, provided_password):
         return check_password_hash(stored_password, provided_password)
-    
-    
+
+    async def get_user_details(self, username):
+        conn = await self.db.get_connection()
+        async with conn.cursor() as cursor:
+            await cursor.execute(
+                "SELECT id, username, email  FROM users WHERE username=%s", (username,)
+            )
+            result = await cursor.fetchone()
+            user = {
+                "id": result[0],
+                "username": result[1],
+                "email": result[2],
+            }
+            return user
+
 user_service = UserService()
