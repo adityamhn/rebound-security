@@ -59,10 +59,13 @@ class LogService:
                 )
             return data
 
-    async def getsessions(self):
+    async def getsessions(self,limit=None):
         conn = await self.db.get_connection()
         async with conn.cursor() as cursor:
-            await cursor.execute("SELECT * FROM sessions ORDER BY starttime DESC")
+            query = "SELECT * FROM sessions ORDER BY starttime DESC"
+            if limit:
+                query += f" LIMIT {limit}"
+            await cursor.execute(query)
             result = await cursor.fetchall()
             data = []
             for row in result:

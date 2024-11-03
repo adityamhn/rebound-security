@@ -14,7 +14,6 @@
             font-size: nth($fontSize, 3);
             color: var(--text-hover);
             font-weight: 400;
-
         }
     }
 
@@ -45,17 +44,14 @@
 
                 :global {
                     .ant-picker-input {
-
                         input {
                             background-color: transparent !important;
                             color: var(--text-secondary);
-                      
+
                             &::placeholder {
-                              color: var(--placeholder);
+                                color: var(--placeholder);
                             }
                         }
-
-
                     }
 
                     .anticon {
@@ -214,4 +210,160 @@
 
 .policyDashboardContainer {
     position: relative;
+}
+
+.dashboardPageContaner {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    .dashboardStatsRow {
+        .dashboardStat {
+        }
+    }
+
+    .asmCard {
+        position: relative;
+        background: none;
+        border: 1px solid var(--input-border-secondary);
+        height: 100%;
+    
+        :global {
+          .ant-card-head {
+            border: none;
+            min-height: 3rem;
+            padding: 0 1rem;
+    
+            .ant-card-head-title {
+              color: var(--text-600);
+              font-weight: 400;
+              font-size: nth($fontSize, 2);
+            }
+          }
+    
+          .ant-card-body {
+            padding: 0.5rem 1rem 1rem 1rem;
+          }
+        }
+      }
+    
+      .fullScore {
+        width: 100%;
+        .showScore {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: var(--text);
+          font-size: nth($fontSize, 4);
+          width: 100%;
+          text-align: center;
+        }
+    
+        .scoreDetails {
+          display: flex;
+          flex-direction: column;
+          gap: 1.2rem;
+    
+          .scoreDetail {
+            .scoreDetailLabel {
+              color: var(--text-600);
+              font-size: nth($fontSize, 2);
+            }
+    
+            .scoreDetailValue {
+              color: var(--text);
+              font-size: nth($fontSize, 5);
+              font-weight: 500;
+            }
+          }
+        }
+      }
+
+      .topAttackCard {
+        .topAttackCardDetails {
+          overflow-y: auto;
+          /* width */
+          &::-webkit-scrollbar {
+            width: 4px;
+          }
+    
+          /* Track */
+          &::-webkit-scrollbar-track {
+            background: transparent;
+          }
+    
+          /* Handle */
+          &::-webkit-scrollbar-thumb {
+            background: var(--border);
+          }
+    
+          /* Handle on hover */
+          &::-webkit-scrollbar-thumb:hover {
+            background: var(--border);
+          }
+    
+          .topAttackCardDetail {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            
+    
+            .topAttackCardDetailLabel {
+              color: var(--text);
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+    
+              .riskLevel {
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 50%;
+              }
+            }
+
+            .topAttackCardDetailLabelSecondary {
+                color: var(--text-600);
+            }
+    
+            .topAttackCardDetailValue {
+              color: var(--primary);
+              font-weight: 500;
+              width: 30%;
+              text-align: right;
+            }
+          }
+        }
+    
+        .topAssetsByType {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem 0;
+          flex-wrap: wrap;
+          gap: 1rem;
+    
+          .topAssetsByTypeDetail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-wrap: wrap;
+            flex-grow: 1;
+    
+            @media screen and (max-width: 1300px) {
+              flex-basis: 33%;
+            }
+    
+            .noOfAssets {
+              color: var(--text);
+              font-size: nth($fontSize, 6);
+            }
+    
+            .type {
+              color: var(--text-600);
+              font-size: nth($fontSize, 1);
+            }
+          }
+        }
+      }
 }

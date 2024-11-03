@@ -13,6 +13,14 @@ db_config = {
     "port": 3306,
 }
 
+db_config_cowrie = {
+    "user": "root",
+    "password": "password",
+    "host": "143.244.143.214",
+    "db": "cowrie",
+    "port": 3306,
+}
+
 class Database:
     def __init__(self, config=None):
         self.connection = None

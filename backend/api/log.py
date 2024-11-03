@@ -9,16 +9,9 @@ from quart_jwt_extended import (
     unset_jwt_cookies,
 )
 from services.log_service import LogService
-from services.db import Database
+from services.db import Database, db_config_cowrie
 
-
-db_config = {
-    "user": "root",
-    "password": "password",
-    "host": "143.244.143.214",
-    "db": "cowrie",
-    "port": 3306,
-}
+db_config = db_config_cowrie
 
 @api.route("/logs/credentials", methods=["GET"])
 async def get_credentials():

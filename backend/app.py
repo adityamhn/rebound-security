@@ -1,5 +1,6 @@
 from quart import Quart
 import os
+from dotenv import load_dotenv
 from quart_jwt_extended import (
     JWTManager,
 )
@@ -7,6 +8,7 @@ from quart_cors import cors
 from api import api
 
 app = Quart(__name__)
+load_dotenv()
 
 cors(
     app,

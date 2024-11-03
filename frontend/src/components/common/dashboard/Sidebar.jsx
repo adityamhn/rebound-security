@@ -38,12 +38,6 @@ const Sidebar = () => {
           label: `Alerts`,
           path: `/dashboard/alerts`,
         },
-        {
-          icon: <PiCodeSimpleBold />,
-          label: `Threat Intelligence`,
-          path: `/dashboard/threat-intelligence`,
-        },
-
       ]
     },
     {
@@ -74,11 +68,11 @@ const Sidebar = () => {
     {
       label: "Others",
       children: [
-        {
-          icon: <TbSettings />,
-          label: `Settings`,
-          path: `/dashboard/settings`,
-        },
+        // {
+        //   icon: <TbSettings />,
+        //   label: `Settings`,
+        //   path: `/dashboard/settings`,
+        // },
         {
           icon: <TbSettings />,
           label: `Integrations`,

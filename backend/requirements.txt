@@ -6,3 +6,5 @@ aiomysql
 asyncio
 dotenv
 aiosqlite
+ipstack
+aiohttp
