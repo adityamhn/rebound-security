@@ -1,17 +1,26 @@
 import os
 import asyncio
 from datetime import datetime
+from typing import Optional
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 import aiomysql
-from typing import Optional
+import aiohttp
+from dotenv import load_dotenv
+import logging
 
-# Initialize FastAPI app
-app = FastAPI()
+# Load environment variables from a .env file if present
+load_dotenv()
 
-# Database connection pool
-db_pool: Optional[aiomysql.Pool] = None
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(levelname)s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger(__name__)
 
 # Database configuration from environment variables
 DB_HOST = os.getenv("DB_HOST", "localhost")
@@ -20,10 +29,17 @@ DB_USER = os.getenv("DB_USER", "http_user")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "your_secure_password")
 DB_NAME = os.getenv("DB_NAME", "http_logs")
 
-# Initialize the database connection pool
-async def init_db_pool():
+# Initialize FastAPI app with lifespan
+app = FastAPI()
+
+# Database connection pool
+db_pool: Optional[aiomysql.Pool] = None
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     global db_pool
-    if db_pool is None:
+    # Startup: Initialize the database connection pool
+    try:
         db_pool = await aiomysql.create_pool(
             host=DB_HOST,
             port=DB_PORT,
@@ -34,21 +50,21 @@ async def init_db_pool():
             minsize=1,
             maxsize=10,
         )
+        logger.info("Database pool created.")
+        yield
+    finally:
+        # Shutdown: Close the database connection pool
+        if db_pool:
+            db_pool.close()
+            await db_pool.wait_closed()
+            logger.info("Database pool closed.")
 
-# Shutdown the database pool on application shutdown
-@app.on_event("shutdown")
-async def shutdown_event():
-    global db_pool
-    if db_pool:
-        db_pool.close()
-        await db_pool.wait_closed()
+# Assign the lifespan handler to the FastAPI app
+app.router.lifespan = lifespan(app)
 
 # Middleware to log each request
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    # Initialize DB pool if not already done
-    await init_db_pool()
-
     # Get request details
     method = request.method
     path = request.url.path
@@ -70,8 +86,9 @@ async def log_requests(request: Request, call_next):
         async with db_pool.acquire() as conn:
             async with conn.cursor() as cur:
                 await cur.execute(insert_query, (method, path, headers_serialized, client_host))
+                logger.info(f"Logged request from {client_host} to {path}.")
     except Exception as e:
-        print(f"[{datetime.now()}] Error logging request: {e}")
+        logger.error(f"Error logging request: {e}")
 
     # Proceed with handling the request
     response = await call_next(request)
@@ -80,4 +97,4 @@ async def log_requests(request: Request, call_next):
 # A simple root endpoint
 @app.get("/")
 async def root():
-    return JSONResponse(content={"message": "HTTP Logger is running."})
+    return JSONResponse(content={"message": "Welcome to Rebound API!"})
