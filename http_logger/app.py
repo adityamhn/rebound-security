@@ -29,12 +29,10 @@ DB_USER = os.getenv("DB_USER", "http_user")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "your_secure_password")
 DB_NAME = os.getenv("DB_NAME", "http_logs")
 
-# Initialize FastAPI app with lifespan
-app = FastAPI()
-
 # Database connection pool
 db_pool: Optional[aiomysql.Pool] = None
 
+# Define the lifespan context manager
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global db_pool
@@ -59,8 +57,8 @@ async def lifespan(app: FastAPI):
             await db_pool.wait_closed()
             logger.info("Database pool closed.")
 
-# Assign the lifespan handler to the FastAPI app
-app.router.lifespan = lifespan(app)
+# Initialize FastAPI with the lifespan handler
+app = FastAPI(lifespan=lifespan)
 
 # Middleware to log each request
 @app.middleware("http")
