@@ -24,3 +24,8 @@ export const getAllCredentials = async () => {
     const response = await apiClient.get("/logs/fingerprints");
     return response.data;
   };
+
+  export const getAllRequests = async () => {
+    const response = await apiClient.get("/logs/http");
+    return response.data;
+  };

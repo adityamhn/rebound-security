@@ -2,9 +2,10 @@ import { Row, Table } from 'antd'
 import React from 'react'
 import styles from '@/styles/components/Table.module.scss'
 import SessionModal from '../modals/SessionModal'
+import moment from 'moment'
 
 
-const FingerprintsTable = ({ sessions, loading }) => {
+const RequestsTable = ({ sessions, loading }) => {
     const [selectedSession, setSelectedSession] = React.useState(null)
 
     const columns = [
@@ -15,9 +16,23 @@ const FingerprintsTable = ({ sessions, loading }) => {
         // },
     
         {
-            title: 'Session ID',
-            dataIndex: 'session',
-            key: 'session',
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            // render: (text) => <div style={{
+            //     whiteSpace: "nowrap",
+            //     overflow: "hidden",
+            //     textOverflow: "ellipsis",
+            //     maxWidth: "15rem",
+            //     display: "block"
+            // }}>{text}</div>
+
+        },
+
+        {
+            title: 'Path',
+            dataIndex: 'path',
+            key: 'path',
             // render: (text) => <div style={{
             //     whiteSpace: "nowrap",
             //     overflow: "hidden",
@@ -28,23 +43,35 @@ const FingerprintsTable = ({ sessions, loading }) => {
 
         },
         {
-            title: 'Username',
-            dataIndex: 'username',
-            key: 'username',
+            title: 'Method',
+            dataIndex: 'method',
+            key: 'method',
             // render: (text) => <span>{text ? <span style={{ color: "#5cb85c" }}>Success</span> : <span style={{ color: "#d9534f" }}>Failed</span>}</span>
         },
         {
-            title: 'Fingerprint',
-            dataIndex: 'fingerprint',
-            key: 'fingerprint',
-            // render: (text) => <div style={{
-            //     whiteSpace: "nowrap",
-            //     overflow: "hidden",
-            //     textOverflow: "ellipsis",
-            //     maxWidth: "15rem",
-            //     display: "block"
-            // }}>{text}</div>
+            title: 'IP Address',
+            dataIndex: 'user_ip',
+            key: 'user_ip',
+            // render: (text) => <span>{text ? <span style={{ color: "#5cb85c" }}>Success</span> : <span style={{ color: "#d9534f" }}>Failed</span>}</span>
+        },
+        {
+            title: 'Headers',
+            dataIndex: 'headers',
+            key: 'headers',
+            render: (text) => <div style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "15rem",
+                display: "block"
+            }}>{text}</div>
 
+        },
+        {
+            title: 'Timestamp',
+            dataIndex: 'timestamp',
+            key: 'timestamp',
+            render: (text) => <span>{moment(text).format("lll")}</span>
         },
 
 
@@ -68,7 +95,7 @@ const FingerprintsTable = ({ sessions, loading }) => {
     return (
         <div className={styles.resourceTableContainer}>
             <Row align="middle" justify="end" className={styles.tableFooter}>
-                <div className={styles.itemsCount}><span>{sessions?.length ?? 0}</span>Sessions</div>
+                <div className={styles.itemsCount}><span>{sessions?.length ?? 0}</span>HTTP Requests</div>
             </Row>
             <Table
                 dataSource={sessions}
@@ -82,13 +109,12 @@ const FingerprintsTable = ({ sessions, loading }) => {
                     }
                 }}
                 loading={loading}
-
             />
 
-<SessionModal visible={selectedSession} setVisible={setSelectedSession} title="Key Fingerprint Details" />
+<SessionModal visible={selectedSession} setVisible={setSelectedSession} title="HTTP Request Details" />
 
         </div>
     )
 }
 
-export default FingerprintsTable
+export default RequestsTable

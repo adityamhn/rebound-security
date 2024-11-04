@@ -112,6 +112,35 @@ class LogService:
                 
             return data
 
+# CREATE TABLE requests (
+#     id INT AUTO_INCREMENT PRIMARY KEY,
+#     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+#     method VARCHAR(10),
+#     path VARCHAR(255),
+#     headers TEXT,
+#     user_ip VARCHAR(45)
+# );
+
+    async def gethttp(self):
+        conn = await self.db.get_connection()
+        async with conn.cursor() as cursor:
+            await cursor.execute("SELECT * FROM requests ORDER BY timestamp DESC")
+            result = await cursor.fetchall()
+            data = []
+            for row in result:
+                id, timestamp, method, path, headers, user_ip = row
+                data.append(
+                    {
+                        "id": id,
+                        "timestamp": timestamp,
+                        "method": method,
+                        "path": path,
+                        "headers": headers,
+                        "user_ip": user_ip,
+                    }
+                )
+            return data
+
 class SQLiteLogService:
     def __init__(self, db=None):
         if db is None:

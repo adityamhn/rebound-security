@@ -63,6 +63,11 @@ const Sidebar = () => {
           label: `Fingerprints Detected`,
           path: `/dashboard/fingerprints`,
         },
+        {
+          icon: <PiDatabase />,
+          label: `HTTP Requests`,
+          path: `/dashboard/http-requests`,
+        },
       ]
     },
     {

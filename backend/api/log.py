@@ -102,3 +102,23 @@ async def get_fingerprints():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+    
+@api.route("/logs/http", methods=["GET"])
+async def get_http():
+    try:
+        db_service = Database()
+        log_service = LogService(db=db_service)
+        connection = log_service
+        
+        auth_result = await connection.gethttp()
+
+        if auth_result:
+            return jsonify({
+                "requests": auth_result,
+                }), 200
+        else:
+            return jsonify({"message": "No records found"}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
