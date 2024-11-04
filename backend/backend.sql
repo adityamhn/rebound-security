@@ -30,3 +30,12 @@ CREATE TABLE IF NOT EXISTS user_roles (
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
 );
 
+
+CREATE TABLE requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    method VARCHAR(10),
+    path VARCHAR(255),
+    headers TEXT,
+    user_ip VARCHAR(45)
+);
