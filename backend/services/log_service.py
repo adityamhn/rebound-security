@@ -169,3 +169,25 @@ class SQLiteLogService:
                 )
                 
             return data
+
+    async def getcreds(self):
+        conn = await self.db.get_connection()
+        async with conn.cursor() as cursor:
+            await cursor.execute("select * from logins order by login desc")
+            result = await cursor.fetchall()
+            data = []
+            for row in result:
+                login, connection, login_username, login_password = row
+                data.append(
+                    {
+                        "id": login,
+                        "success": 1,
+                        "session": "DIO" + str(connection),
+                        "username": login_username,
+                        "password": login_password,
+                        # get current time
+                        "timestamp":  datetime.date.today() 
+                    }
+                )
+                
+            return data

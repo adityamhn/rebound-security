@@ -19,8 +19,12 @@ async def get_credentials():
         db_service = Database(config=db_config)
         log_service = LogService(db=db_service)
         connection = log_service
+        log_service_2 = SQLiteLogService()
         
-        auth_result = await connection.getauth()
+        auth_result_1 = await connection.getauth()
+        auth_result_2 = await log_service_2.getcreds()
+        
+        auth_result = auth_result_1 + auth_result_2
 
         if auth_result:
             return jsonify({
@@ -41,7 +45,7 @@ async def get_commands():
         connection = log_service
         
         auth_result = await connection.getactions()
-
+ 
         if auth_result:
             return jsonify({
                 "actions": auth_result,
